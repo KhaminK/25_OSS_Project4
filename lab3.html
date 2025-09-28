@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        ul{
+        ul {
             list-style-type: none;
             padding: 0;
         }
@@ -23,10 +23,11 @@
 <script>
     let getInfo = document.getElementById("get-info");
     let list = document.getElementById("list");
-    list.innerHTML = "";
 
     getInfo.addEventListener("click", calling);
     function calling() {
+        list.innerHTML = "";
+
         fetch("https://jsonplaceholder.typicode.com/users")
             .then(response => response.json())
             .then(data => {

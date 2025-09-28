@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kylie's Project Hub</title>
+    <style>
+        /* A modern, techy font from Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400&display=swap');
+
+        /* This defines our fade-in animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* --- 1. BULLETPROOF CENTERING & DYNAMIC BACKGROUND --- */
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            background-image: url("elmo_wallpaper.webp");
+            background-position: center center;
+            background-size: cover;
+            color: #e0e0e0;
+            overflow: hidden;
+            /* Prevents accidental scrolling */
+
+            /* This is the best way to center a single child element perfectly */
+            min-height: 100vh;
+            display: flex;
+            justify-content:center;
+        }
+
+        /* Wrapper for all content to ensure proper layering */
+        .page-wrapper {
+            position: relative;
+            z-index: 1;
+            padding: 2rem;
+            width: 100%;
+            max-width: 1200px;
+            box-sizing: border-box;
+        }
+
+        /* Header Styles */
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            margin: 0;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(0, 191, 255, 0.7), 0 0 20px rgba(0, 191, 255, 0.5);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #a0a0a0;
+        }
+
+        /* --- 2. RESPONSIVE GRID & 3D CARD CONTAINER --- */
+        .lab-grid {
+            display: grid;
+            /* Creates a responsive grid that fits as many 280px cards as it can */
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 2.5rem;
+
+            /* This property enables the 3D perspective for child elements */
+            perspective: 1000px;
+        }
+
+        .lab-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- 3. THE 3D TILTING CARDS --- */
+        .lab-card {
+            background: rgba(14, 22, 39, 0.6);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(0, 191, 255, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+
+            /* This tells the card to respect the 3D space */
+            transform-style: preserve-3d;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .lab-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .lab-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .lab-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .lab-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .lab-card:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .lab-card:hover {
+            border-color: rgba(0, 191, 255, 0.8);
+            /* Adds a neon glow effect */
+            box-shadow: 0 0 20px rgba(0, 191, 255, 0.5), 0 0 30px rgba(0, 191, 255, 0.3);
+            /* The 3D tilt effect */
+            transform: scale(1.05) translateZ(20px);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 30vh;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(0, 191, 255, 0.2);
+        }
+
+        .card-title {
+            padding: 1.5rem;
+            font-size: 1.5rem;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="stars"></div>
+    <div class="page-wrapper">
+        <header class="header">
+            <h1>Project Hub</h1>
+            <p>A showcase of my lab assignments</p>
+        </header>
+
+        <main>
+            <div class="lab-grid">
+                <a href="lab1.html" class="lab-link">
+                    <div class="lab-card">
+                        <img src="meme2.png"
+                            alt="Abstract code" class="card-image">
+                        <h3 class="card-title">Lab 1</h3>
+                    </div>
+                </a>
+                <a href="lab2.html" class="lab-link">
+                    <div class="lab-card">
+                        <img src="meme3.gif"
+                            alt="Code on a screen" class="card-image">
+                        <h3 class="card-title">Lab 2</h3>
+                    </div>
+                </a>
+                <a href="lab3.html" class="lab-link">
+                    <div class="lab-card">
+                        <img src="meme4.gif"
+                            alt="Network connections" class="card-image">
+                        <h3 class="card-title">Lab 3</h3>
+                    </div>
+                </a>
+                <a href="js_ajax.html" class="lab-link">
+                    <div class="lab-card">
+                        <img src="meme5.jpeg"
+                            alt="Circuit board" class="card-image">
+                        <h3 class="card-title">Lab 4</h3>
+                    </div>
+                </a>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

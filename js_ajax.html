@@ -199,6 +199,21 @@
 
             myForm.addEventListener("submit", (event) => {
                 event.preventDefault();
+                const alphabets = /^[A-Za-z\s]+$/;
+                const number = /^[0-9]+$/;
+
+                if (!alphabets.test(input1.value)) {
+                    alert("Only use alphabets and spaces for artist");
+                    return;
+                }
+                if (!number.test(input2.value)) {
+                    alert("Only use numbers for the debut year");
+                    return;
+                }
+                if (!number.test(input3.value)) {
+                    alert("Only use numbers for the number of albums");
+                    return;
+                }
 
                 fetch(`http://localhost:3001/favoriteSinger/${singer.id}`, {
                     method: "PUT",
