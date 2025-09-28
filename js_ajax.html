@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        form {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        input {
+            max-width: 50vw;
+            margin-bottom: 5px;
+            height: 20px;
+        }
+
+        p {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="read">Read</button>
+    <button id="create">Create</button>
+    <button id="update">Update</button>
+    <button id="delete">Delete</button>
+    <div id="list"></div>
+
+</body>
+
+</html>
+
+<script>
+    const read = document.getElementById("read");
+    const create = document.getElementById("create");
+    const update = document.getElementById("update");
+    const del = document.getElementById("delete");
+    let list = document.getElementById("list");
+
+
+    read.addEventListener("click", reading)
+    function reading() {
+        list.innerHTML = "";
+        fetch("http://localhost:3001/favoriteSinger")
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(singer => {
+                    let element = document.createElement("p");
+                    element.innerHTML = `${singer.name}: debut- ${singer.debutYear}, albums- ${singer.numberOfAlbums}, Best Song- ${singer.favoriteSong}`;
+                    list.appendChild(element);
+                })
+            })
+            .catch(error => {
+                console.log("Error: ", error);
+                alert("error has occured, please check your console.")
+            });
+    }
+    create.addEventListener("click", creating)
+    function creating() {
+        list.innerHTML = "";
+        let myForm = document.createElement("form");
+        let input1 = document.createElement("input");
+        let label1 = document.createElement("p");
+        let input2 = document.createElement("input");
+        let label2 = document.createElement("p");
+        let input3 = document.createElement("input");
+        let label3 = document.createElement("p");
+        let input4 = document.createElement("input");
+        let label4 = document.createElement("p");
+        let subBtn = document.createElement("input");
+        subBtn.type = "submit";
+        label1.textContent = "Artist";
+        label2.textContent = "Debut Year";
+        label3.textContent = "Number of Albums";
+        label4.textContent = "Favorite Song";
+
+        //regTests
+        const alphabets = /^[A-Za-z\s]+$/;
+        const number = /^[0-9]+$/;
+
+        myForm.appendChild(label1);
+        myForm.appendChild(input1);
+
+        myForm.appendChild(label2);
+        myForm.appendChild(input2);
+
+        myForm.appendChild(label3);
+        myForm.appendChild(input3);
+
+        myForm.appendChild(label4);
+        myForm.appendChild(input4);
+
+        myForm.appendChild(subBtn);
+        list.appendChild(myForm);
+        myForm.addEventListener("submit", send);
+        function send(event) {
+            event.preventDefault();
+            if (!alphabets.test(input1.value)) {
+                alert("Only use alphabets and spaces for artist");
+                return;
+            }
+            if (!number.test(input2.value)) {
+                alert("Only use numbers for the debut year");
+                return;
+            }
+            if (!number.test(input3.value)) {
+                alert("Only use numbers for the nunmber of albums");
+                return;
+            }
+            fetch("http://localhost:3001/favoriteSinger", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name: input1.value,
+                    debutYear: input2.value,
+                    numberOfAlbums: input3.value,
+                    favoriteSong: input4.value
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert("Added Successfully!");
+                    reading();
+                })
+                .catch(error => {
+                    console.log("Error: ", error);
+                    alert("error has occured, please check your console.")
+                });
+        }
+    }
+
+    update.addEventListener("click", updating);
+    function updating(event) {
+        list.innerHTML = "";
+        let updateForm = document.createElement("form");
+        fetch("http://localhost:3001/favoriteSinger")
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(singer => {
+                    let element = document.createElement("p");
+                    element.innerHTML = `${singer.name}`;
+                    list.appendChild(element);
+                    let btn = document.createElement("button");
+                    btn.textContent = "Update this";
+                    list.appendChild(btn);
+
+                    //argument가 있으면 이렇게 넘겨야 한다네용 신기방기
+                    btn.addEventListener("click", () => makeForm(singer));
+                });
+            })
+            .catch(error => {
+                console.log("Error: ", error);
+                alert("error has occured, please check your console.")
+            });
+        function makeForm(singer) {
+            list.innerHTML = "";
+            let myForm = document.createElement("form");
+
+            let input1 = document.createElement("input");
+            let label1 = document.createElement("p");
+            let input2 = document.createElement("input");
+            let label2 = document.createElement("p");
+            let input3 = document.createElement("input");
+            let label3 = document.createElement("p");
+            let input4 = document.createElement("input");
+            let label4 = document.createElement("p");
+            let subBtn = document.createElement("input");
+            subBtn.type = "submit";
+
+            label1.textContent = "Artist";
+            label2.textContent = "Debut Year";
+            label3.textContent = "Number of Albums";
+            label4.textContent = "Favorite Song";
+
+            input1.value = singer.name;
+            input2.value = singer.debutYear;
+            input3.value = singer.numberOfAlbums;
+            input4.value = singer.favoriteSong;
+
+            myForm.appendChild(label1);
+            myForm.appendChild(input1);
+            myForm.appendChild(label2);
+            myForm.appendChild(input2);
+            myForm.appendChild(label3);
+            myForm.appendChild(input3);
+            myForm.appendChild(label4);
+            myForm.appendChild(input4);
+            myForm.appendChild(subBtn);
+
+            list.appendChild(myForm);
+
+            myForm.addEventListener("submit", (event) => {
+                event.preventDefault();
+
+                fetch(`http://localhost:3001/favoriteSinger/${singer.id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        name: input1.value,
+                        debutYear: input2.value,
+                        numberOfAlbums: input3.value,
+                        favoriteSong: input4.value
+                    }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert("Updated successfully!");
+                        reading();
+                    })
+                    .catch(error => {
+                        console.log("Error: ", error);
+                        alert("error has occured, please check your console.")
+                    });
+            });
+        }
+    }
+
+    del.addEventListener("click", deleting);
+    function deleting() {
+        list.innerHTML = "";
+        let updateForm = document.createElement("form");
+        fetch("http://localhost:3001/favoriteSinger")
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(singer => {
+                    let element = document.createElement("p");
+                    element.innerHTML = `${singer.name}`;
+                    list.appendChild(element);
+                    let btn = document.createElement("button");
+                    btn.textContent = "Delete this";
+                    list.appendChild(btn);
+                    btn.addEventListener("click", () => deleteArtist(singer));
+                });
+            })
+            .catch(error => {
+                console.log("Error: ", error);
+                alert("error has occured, please check your console.")
+            });
+        function deleteArtist(singer) {
+            fetch(`http://localhost:3001/favoriteSinger/${singer.id}`,
+                {
+                    method: "DELETE"
+                })
+                .then(responce => responce.json())
+                .then(data => {
+                    alert("Deleted Successfully");
+                    reading();
+                })
+                .catch(error => {
+                    console.log("Error: ", error);
+                    alert("error has occured, please check your console.")
+                });
+        }
+    }
+</script>

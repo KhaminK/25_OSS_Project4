@@ -1,0 +1,32 @@
+{
+  "favoriteSinger": [
+    {
+      "name": "Keshi",
+      "debutYear": 2017,
+      "numberOfAlbums": 5,
+      "favoriteSong": "Say",
+      "id": "662b"
+    },
+    {
+      "name": "Dean",
+      "debutYear": 2015,
+      "numberOfAlbums": 1,
+      "favoriteSong": "Instagram",
+      "id": "ae0c"
+    },
+    {
+      "name": "검정치마",
+      "debutYear": 2008,
+      "numberOfAlbums": 4,
+      "favoriteSong": "기다린만큼 더",
+      "id": "d827"
+    },
+    {
+      "name": "Johnny Stimson",
+      "debutYear": 2010,
+      "numberOfAlbums": 5,
+      "favoriteSong": "Flower",
+      "id": "07d8"
+    }
+  ]
+}
